@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Govee UI</title>
+
+	<link rel="icon" type="image/png" sizes="192x192" href="assets/favicons/android-chrome-192x192.png">
+	<link rel="icon" type="image/png" sizes="192x192" href="assets/favicons/android-chrome-512x512.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="assets/favicons/favicon-16x16.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="assets/favicons/favicon-32x32.png">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+
+<body>
+	<header></header>
+	<section class="container">
+		<form class="row justify-content-center d-flex m-auto" id="apiKeyForm">
+			<div class="col-8 mb-1">
+				<div class="input-group">
+					<input type="text" class="form-control" placeholder="Govee API Key" aria-label="Govee API Key"
+						name="apiKeyInput" required id="apiKeyInput">
+					<button class="btn btn-primary" type="submit" id="submitApiKey">Submit</button>
+				</div>
+			</div>
+			<div class="row">
+				<div class="offset-2 col-2 align-items-center d-flex ps-0">
+					<div class="form-check">
+						<input class="form-check-input" type="checkbox" name="persistApiKeyCheck" id="persistApiKeyCheck">
+						<label class="form-check-label" for="persistApiKeyCheck">
+							Remember me
+						</label>
+					</div>
+				</div>
+			</div>
+		</form>
+	</section>
+
+	<section class="container devices-detail"></section>
+
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+		crossorigin="anonymous"></script>
+	<script src="govee.js" type="module"></script>
+	<script src="constants.js" type="module"></script>
+	<script src="getDevices.js" type="module"></script>
+</body>
+
+</html>
