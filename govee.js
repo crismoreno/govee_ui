@@ -1,11 +1,14 @@
 import {STORED_KEY_NAME} from './constants.js';
 import getDevices, {displayDeviceData} from './getDevices.js';
+import getDeviceState, {displayDeviceState} from './getDeviceState.js';
+import {togglePower} from './controlDevice.js';
 
 const apiKeyForm = document.getElementById('apiKeyForm');
 const apiKeyInput = document.getElementById('apiKeyInput');
 const persistAPIKeyCheck = document.getElementById('persistApiKeyCheck');
 const submitApiKeyButton = document.getElementById('submitApiKey');
 const devicesContainer = document.querySelector('.devices-detail');
+const devicePowerSwitch = document.querySelector('.device-power');
 
 const persistedAPIKey = localStorage.getItem(STORED_KEY_NAME);
 
@@ -26,6 +29,15 @@ const useApiKey = async (apiKey) => {
 
 	if(goveeDevices.code === 200){
 		const {data: devices} = goveeDevices;
+		const goveeDeviceState = await getDeviceState(devices[0], apiKey);
+		devicesContainer.dataset.mac = devices[0].device;
+		devicesContainer.dataset.sku = devices[0].sku;
+
+		if(goveeDeviceState.code === 200){
+			const {payload: {capabilities}} = goveeDeviceState;
+			displayDeviceState(capabilities);
+		}
+
 		displayDeviceData(devices[0])
 	}
 }
@@ -50,3 +62,8 @@ apiKeyForm.addEventListener('submit', (event) => {
 
 	useApiKey(apiKey);
 });
+
+devicePowerSwitch.addEventListener('click', async () => {
+	await togglePower({apiKey: apiKeyInput.value, devicePowerSwitch: devicePowerSwitch.checked, deviceMac: devicesContainer.dataset.mac, deviceSku: devicesContainer.dataset.sku});
+});
+

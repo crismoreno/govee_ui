@@ -18,11 +18,12 @@ const createInfoRow = () => {
 	const deviceInfoRow = document.createElement('div')
 	deviceInfoRow.classList.add('row');
 	deviceInfoRow.classList.add('mt-3');
+	deviceInfoRow.classList.add('justify-content-center');
 	return deviceInfoRow;
 }
 const createInfoCol = () => {
 	const deviceInfoCol = document.createElement('div')
-	deviceInfoCol.classList.add('col-4');
+	deviceInfoCol.classList.add('col-3');
 	return deviceInfoCol;
 }
 
@@ -30,7 +31,7 @@ const  displaySku = (sku, deviceInfoRow) => {
 	const skuCol = createInfoCol();
 	skuCol.innerHTML = `<div class="input-group">
 	<span class="input-group-text" id="inputGroup-sizing-sm">SKU</span>
-	<input type="text" class="form-control" value="${sku}" readonly disabled>
+	<input type="text" class="form-control device-sku" value="${sku}" readonly disabled>
 	</div>`;
 
 	deviceInfoRow.appendChild(skuCol);
@@ -40,7 +41,7 @@ const  displayDevice = (device, deviceInfoRow) => {
 	const deviceCol = createInfoCol();
 	deviceCol.innerHTML = `<div class="input-group">
 	<span class="input-group-text" id="inputGroup-sizing-sm">Device</span>
-	<input type="text" class="form-control" value="${device}" readonly disabled>
+	<input type="text" class="form-control device-mac" value="${device}" readonly disabled>
 	</div>`;
 	deviceInfoRow.appendChild(deviceCol);
 };
