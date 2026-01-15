@@ -43,10 +43,17 @@
 	<section class="container devices-detail"></section>
 	<section class="container devices-controls">
 		<div class="row mt-3 justify-content-center">
-			<div class="col-4 justify-content-center d-flex">
+			<div class="col-2 justify-content-center d-flex">
 				<input type="checkbox" class="btn-check device-power" id="device-power" autocomplete="off">
 				<label class="btn btn-outline-primary" for="device-power">Switcher</label>
 			</div>
+		</div>
+		<div class="row mt-3 justify-content-center">
+			<div class="col-6 justify-content-center d-flex">
+				<input type="range" class="form-range device-brightness" min="0" max="100" step="5" id="range3">
+				<output for="range4" class="brightness-output-value ms-2"></output>
+			</div>
+
 		</div>
 	</section>
 

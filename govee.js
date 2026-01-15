@@ -1,7 +1,7 @@
 import {STORED_KEY_NAME} from './constants.js';
 import getDevices, {displayDeviceData} from './getDevices.js';
 import getDeviceState, {displayDeviceState} from './getDeviceState.js';
-import {togglePower} from './controlDevice.js';
+import {togglePower, controlBrightness} from './controlDevice.js';
 
 const apiKeyForm = document.getElementById('apiKeyForm');
 const apiKeyInput = document.getElementById('apiKeyInput');
@@ -9,6 +9,7 @@ const persistAPIKeyCheck = document.getElementById('persistApiKeyCheck');
 const submitApiKeyButton = document.getElementById('submitApiKey');
 const devicesContainer = document.querySelector('.devices-detail');
 const devicePowerSwitch = document.querySelector('.device-power');
+const deviceBrightnessSlider = document.querySelector('.device-brightness');
 
 const persistedAPIKey = localStorage.getItem(STORED_KEY_NAME);
 
@@ -58,12 +59,15 @@ apiKeyForm.addEventListener('submit', (event) => {
 		localStorage.setItem(STORED_KEY_NAME, JSON.stringify(apiKey));
 	}
 
-	devicesContainer.innerHTML = `<div class="spinner-border" role="status"></div>`
-
 	useApiKey(apiKey);
 });
 
 devicePowerSwitch.addEventListener('click', async () => {
-	await togglePower({apiKey: apiKeyInput.value, devicePowerSwitch: devicePowerSwitch.checked, deviceMac: devicesContainer.dataset.mac, deviceSku: devicesContainer.dataset.sku});
+	await togglePower({apiKey: apiKeyInput.value, devicePowerSwitch: devicePowerSwitch.checked, deviceMac: devicesContainer.dataset.mac, deviceSku: devicesContainer.dataset.sku, apiKey: apiKeyInput.value, devicePowerSwitch: devicePowerSwitch.checked, deviceMac: devicesContainer.dataset.mac, deviceSku: devicesContainer.dataset.sku});
+});
+
+deviceBrightnessSlider.addEventListener('input', async (event) => {
+	document.querySelector('.brightness-output-value').textContent = event.target.value;
+	await controlBrightness({apiKey: apiKeyInput.value, brightness: event.target.value, deviceMac: devicesContainer.dataset.mac, deviceSku: devicesContainer.dataset.sku, apiKey: apiKeyInput.value, devicePowerSwitch: devicePowerSwitch.checked, deviceMac: devicesContainer.dataset.mac, deviceSku: devicesContainer.dataset.sku})
 });
 

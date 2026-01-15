@@ -23,3 +23,27 @@ export const togglePower = async ({apiKey, devicePowerSwitch, deviceSku, deviceM
 
 	return await togglePower.json();
 };
+
+export const controlBrightness = async ({apiKey, brightness, deviceSku, deviceMac}) => {
+	const togglePower = await fetch(`${API_BASE_URL}/device/control`, {
+		method: 'POST',
+		headers: {
+				'Content-Type': 'application/json',
+				'Govee-API-Key': apiKey
+		},
+		body: JSON.stringify({
+			"requestId": "uuid",
+			"payload": {
+					"sku": deviceSku,
+					"device": deviceMac,
+					"capability": {
+						"type": "devices.capabilities.range",
+						"instance": "brightness",
+						"value": Number(brightness)
+					}
+			}
+		})
+	});
+
+	return await togglePower.json();
+};

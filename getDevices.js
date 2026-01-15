@@ -21,14 +21,14 @@ const createInfoRow = () => {
 	deviceInfoRow.classList.add('justify-content-center');
 	return deviceInfoRow;
 }
-const createInfoCol = () => {
+const createInfoCol = (width) => {
 	const deviceInfoCol = document.createElement('div')
-	deviceInfoCol.classList.add('col-3');
+	deviceInfoCol.classList.add(`col-${width}`);
 	return deviceInfoCol;
 }
 
 const  displaySku = (sku, deviceInfoRow) => {
-	const skuCol = createInfoCol();
+	const skuCol = createInfoCol(3);
 	skuCol.innerHTML = `<div class="input-group">
 	<span class="input-group-text" id="inputGroup-sizing-sm">SKU</span>
 	<input type="text" class="form-control device-sku" value="${sku}" readonly disabled>
@@ -38,7 +38,7 @@ const  displaySku = (sku, deviceInfoRow) => {
 };
 
 const  displayDevice = (device, deviceInfoRow) => {
-	const deviceCol = createInfoCol();
+	const deviceCol = createInfoCol(3);
 	deviceCol.innerHTML = `<div class="input-group">
 	<span class="input-group-text" id="inputGroup-sizing-sm">Device</span>
 	<input type="text" class="form-control device-mac" value="${device}" readonly disabled>
@@ -47,7 +47,7 @@ const  displayDevice = (device, deviceInfoRow) => {
 };
 
 const  displayDeviceName = (deviceName, deviceInfoRow) => {
-	const deviceNameCol = createInfoCol();
+	const deviceNameCol = createInfoCol(6);
 	deviceNameCol.innerHTML = `<div class="input-group">
 	<span class="input-group-text" id="inputGroup-sizing-sm">Device Name</span>
 	<input type="text" class="form-control" value="${deviceName}" readonly disabled>
@@ -57,12 +57,14 @@ const  displayDeviceName = (deviceName, deviceInfoRow) => {
 
 export const displayDeviceData = ({sku, device, deviceName}) => {
 	devicesContainer.innerHTML = '';
-	const deviceInfoRow = createInfoRow();
-	devicesContainer.appendChild(deviceInfoRow);
+	const deviceInfoRow1 = createInfoRow();
+	devicesContainer.appendChild(deviceInfoRow1);
 
-	displaySku(sku, deviceInfoRow)
-	displayDevice(device, deviceInfoRow)
-	displayDeviceName(deviceName, deviceInfoRow)
+	displayDeviceName(deviceName, deviceInfoRow1)
+	const deviceInfoRow2 = createInfoRow();
+	devicesContainer.appendChild(deviceInfoRow2);
+	displaySku(sku, deviceInfoRow2)
+	displayDevice(device, deviceInfoRow2)
 }
 
 
