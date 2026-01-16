@@ -1,31 +1,11 @@
-import {API_BASE_URL} from './constants.js';
+import {API_BASE_URL, API_KEY_ID} from './constants.js';
+import {createInfoRow, createInfoCol, apiCallSuccess} from './helpers.js'
+import {getDevices as getDevicesController} from './apiConnector.js';
 
 const devicesContainer = document.querySelector('.devices-detail');
-
-const getDevices = async (apiKey)  => {
-	const devices = await fetch(`${API_BASE_URL}/user/devices`, {
-		method: 'GET',
-		headers: {
-				'Content-Type': 'application/json',
-				'Govee-API-Key': apiKey
-		}
-	});
-
-	return await devices.json();
-};
-
-const createInfoRow = () => {
-	const deviceInfoRow = document.createElement('div')
-	deviceInfoRow.classList.add('row');
-	deviceInfoRow.classList.add('mt-3');
-	deviceInfoRow.classList.add('justify-content-center');
-	return deviceInfoRow;
-}
-const createInfoCol = (width) => {
-	const deviceInfoCol = document.createElement('div')
-	deviceInfoCol.classList.add(`col-${width}`);
-	return deviceInfoCol;
-}
+const apiKeyInput = document.getElementById('apiKeyInput');
+const persistAPIKeyCheck = document.getElementById('persistApiKeyCheck');
+const submitApiKeyButton = document.getElementById('submitApiKey');
 
 const  displaySku = (sku, deviceInfoRow) => {
 	const skuCol = createInfoCol(3);
@@ -67,5 +47,27 @@ export const displayDeviceData = ({sku, device, deviceName}) => {
 	displayDevice(device, deviceInfoRow2)
 }
 
+const getDevices = async ({apiKey, persistApiKey}) => {
+	const goveeDevicesApiResponse = await getDevicesController(apiKey);
+
+	if(apiCallSuccess(goveeDevicesApiResponse)){
+		apiKeyInput.value = apiKey;
+		apiKeyInput.disabled = true;
+		persistAPIKeyCheck.checked = true;
+		persistAPIKeyCheck.disabled = true;
+		submitApiKeyButton.disabled = true;
+
+		devicesContainer.dataset.mac = goveeDevicesApiResponse.data[0].device;
+		devicesContainer.dataset.sku = goveeDevicesApiResponse.data[0].sku;
+
+		if(persistApiKey){
+			localStorage.setItem(API_KEY_ID, JSON.stringify(apiKey));
+		}
+
+		displayDeviceData(goveeDevicesApiResponse.data[0])
+
+		return goveeDevicesApiResponse.data;
+	}
+}
 
 export default getDevices;

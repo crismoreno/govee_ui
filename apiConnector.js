@@ -1,11 +1,42 @@
-import {API_BASE_URL} from './constants.js';
+import {API_BASE_URL, API_KEY_ID} from './constants.js';
+
+export const getDevices = async (apiKey)  => {
+	const devices = await fetch(`${API_BASE_URL}/user/devices`, {
+		method: 'GET',
+		headers: {
+				'Content-Type': 'application/json',
+				[API_KEY_ID]: apiKey
+		}
+	});
+
+	return await devices.json();
+};
+
+export const getDeviceState = async ({sku, device}, apiKey) => {
+	const deviceState = await fetch(`${API_BASE_URL}/device/state`, {
+		method: 'POST',
+		headers: {
+				'Content-Type': 'application/json',
+				[API_KEY_ID]: apiKey
+		},
+		body: JSON.stringify({
+			"requestId": "uuid",
+			"payload": {
+					"sku": sku,
+					"device": device
+			}
+		})
+	});
+
+	return await deviceState.json();
+};
 
 export const togglePower = async ({apiKey, devicePowerSwitch, deviceSku, deviceMac}) => {
 	const togglePower = await fetch(`${API_BASE_URL}/device/control`, {
 		method: 'POST',
 		headers: {
 				'Content-Type': 'application/json',
-				'Govee-API-Key': apiKey
+				[API_KEY_ID]: apiKey
 		},
 		body: JSON.stringify({
 			"requestId": "uuid",
@@ -25,11 +56,11 @@ export const togglePower = async ({apiKey, devicePowerSwitch, deviceSku, deviceM
 };
 
 export const controlBrightness = async ({apiKey, brightness, deviceSku, deviceMac}) => {
-	const togglePower = await fetch(`${API_BASE_URL}/device/control`, {
+	const controlBrightness = await fetch(`${API_BASE_URL}/device/control`, {
 		method: 'POST',
 		headers: {
 				'Content-Type': 'application/json',
-				'Govee-API-Key': apiKey
+				[API_KEY_ID]: apiKey
 		},
 		body: JSON.stringify({
 			"requestId": "uuid",
@@ -45,5 +76,5 @@ export const controlBrightness = async ({apiKey, brightness, deviceSku, deviceMa
 		})
 	});
 
-	return await togglePower.json();
+	return await controlBrightness.json();
 };

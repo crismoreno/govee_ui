@@ -41,7 +41,7 @@
 	</section>
 
 	<section class="container devices-detail"></section>
-	<section class="container devices-controls">
+	<section class="container devices-controls d-none">
 		<div class="row mt-3 justify-content-center">
 			<div class="col-2 justify-content-center d-flex">
 				<input type="checkbox" class="btn-check device-power" id="device-power" autocomplete="off">
@@ -60,11 +60,12 @@
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
 		crossorigin="anonymous"></script>
-	<script src="govee.js" type="module"></script>
+	<script src="index.js" type="module"></script>
 	<script src="constants.js" type="module"></script>
 	<script src="getDevices.js" type="module"></script>
 	<script src="getDeviceState.js" type="module"></script>
-	<script src="controlDevice.js" type="module"></script>
+	<script src="helpers.js" type="module"></script>
+	<script src="apiConnector.js" type="module"></script>
 </body>
 
 </html>

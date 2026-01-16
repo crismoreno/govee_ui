@@ -1,33 +1,14 @@
-import {API_BASE_URL} from './constants.js';
+import {INSTANCE_IDS} from './constants.js';
+import {getDeviceState as getDeviceStateController} from './apiConnector.js';
+import {apiCallSuccess} from './helpers.js';
 
-const POWERSWITCH_INSTANCE_ID = 'powerSwitch';
-const BRIGHTNESS_INSTANCE_ID = 'brightness';
-
+const devicesControlsContainer = document.querySelector('.devices-controls');
 const devicePowerSwitch = document.querySelector('.device-power');
 const deviceBrightnessSlider = document.querySelector('.device-brightness');
 const deviceBrightnessOutputValue = document.querySelector('.brightness-output-value');
 
-const getDeviceState = async ({sku, device}, apiKey) => {
-	const deviceState = await fetch(`${API_BASE_URL}/device/state`, {
-		method: 'POST',
-		headers: {
-				'Content-Type': 'application/json',
-				'Govee-API-Key': apiKey
-		},
-		body: JSON.stringify({
-			"requestId": "uuid",
-			"payload": {
-					"sku": sku,
-					"device": device
-			}
-		})
-	});
-
-	return await deviceState.json();
-};
-
-const displayDevicePowerSwitchStatus = (isOn) => {
-	devicePowerSwitch.checked = isOn;
+const displayDevicePowerSwitchStatus = (state) => {
+	devicePowerSwitch.checked = state;
 }
 
 const displayDeviceBrightnessStatus = (brightness) => {
@@ -36,8 +17,18 @@ const displayDeviceBrightnessStatus = (brightness) => {
 }
 
 export const displayDeviceState = (capabilities) => {
-	displayDevicePowerSwitchStatus(capabilities.find(({instance}) => instance === POWERSWITCH_INSTANCE_ID)?.state?.value);
-	displayDeviceBrightnessStatus(capabilities.find(({instance}) => instance === BRIGHTNESS_INSTANCE_ID)?.state?.value);
+	displayDevicePowerSwitchStatus(capabilities.find(({instance}) => instance === INSTANCE_IDS.POWERSWITCH)?.state?.value);
+	displayDeviceBrightnessStatus(capabilities.find(({instance}) => instance === INSTANCE_IDS.BRIGHTNESS)?.state?.value);
 };
+
+const getDeviceState = async ({device, apiKey}) => {
+	const deviceStateResponse = await getDeviceStateController(device, apiKey);
+
+	if(apiCallSuccess(deviceStateResponse)){
+		devicesControlsContainer.classList.remove('d-none');
+		displayDeviceState(deviceStateResponse.payload.capabilities);
+		return deviceStateResponse.payload.capabilities;
+	}
+}
 
 export default getDeviceState;
