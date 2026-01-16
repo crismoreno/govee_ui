@@ -1,5 +1,5 @@
 import {INSTANCE_IDS} from './constants.js';
-import {getDeviceState as getDeviceStateController} from './apiConnector.js';
+import {getStateByDevice as getStateByDeviceController} from './apiConnector.js';
 import {apiCallSuccess} from './helpers.js';
 
 const devicesControlsContainer = document.querySelector('.devices-controls');
@@ -21,8 +21,8 @@ export const displayDeviceState = (capabilities) => {
 	displayDeviceBrightnessStatus(capabilities.find(({instance}) => instance === INSTANCE_IDS.BRIGHTNESS)?.state?.value);
 };
 
-const getDeviceState = async ({device, apiKey}) => {
-	const deviceStateResponse = await getDeviceStateController(device, apiKey);
+const getStateByDevice = async ({device, apiKey}) => {
+	const deviceStateResponse = await getStateByDeviceController(device, apiKey);
 
 	if(apiCallSuccess(deviceStateResponse)){
 		devicesControlsContainer.classList.remove('d-none');
@@ -31,4 +31,4 @@ const getDeviceState = async ({device, apiKey}) => {
 	}
 }
 
-export default getDeviceState;
+export default getStateByDevice;

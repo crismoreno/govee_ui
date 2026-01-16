@@ -12,7 +12,7 @@ export const getDevices = async (apiKey)  => {
 	return await devices.json();
 };
 
-export const getDeviceState = async ({sku, device}, apiKey) => {
+export const getStateByDevice = async ({sku, device}, apiKey) => {
 	const deviceState = await fetch(`${API_BASE_URL}/device/state`, {
 		method: 'POST',
 		headers: {
