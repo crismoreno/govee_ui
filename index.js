@@ -2,18 +2,25 @@ import {API_KEY_ID} from './constants.js';
 import getDevices from './getDevices.js';
 import getStateByDevice from './getStateByDevice.js';
 import {togglePower, controlBrightness} from './apiConnector.js';
+import getDevicesScenes from './getDeviceScenes.js';
 
 const apiKeyForm = document.getElementById('apiKeyForm');
 const apiKeyInput = document.getElementById('apiKeyInput');
 const devicesContainer = document.querySelector('.devices-detail');
 const devicePowerSwitch = document.querySelector('.device-power');
 const deviceBrightnessSlider = document.querySelector('.device-brightness');
+const sceneItems = document.querySelector('.device-scenes');
 
 const persistedAPIKey = localStorage.getItem(API_KEY_ID);
 
+const onApiKeyProvided = async (apiKey, persistApiKey) => {
+		const [device] = await getDevices({apiKey, persistApiKey});
+	getStateByDevice({device, apiKey});
+	getDevicesScenes({device, apiKey});
+}
+
 if(persistedAPIKey){
-	const [device] = await getDevices({apiKey:JSON.parse(persistedAPIKey), persistApiKey:true});
-	getStateByDevice({device, apiKey: JSON.parse(persistedAPIKey)});
+	onApiKeyProvided(JSON.parse(persistedAPIKey), true);
 }
 
 apiKeyForm.addEventListener('submit', async (event) => {
@@ -24,8 +31,7 @@ apiKeyForm.addEventListener('submit', async (event) => {
 	const apiKey = fields.get('apiKeyInput');
 	const persistApiKey = fields.get('persistApiKeyCheck') === 'on';
 
-	const [device] = await getDevices({apiKey, persistApiKey});
-	getStateByDevice({device, apiKey});
+	onApiKeyProvided(apiKey, persistApiKey);
 });
 
 devicePowerSwitch.addEventListener('click', async () => {
@@ -37,3 +43,7 @@ deviceBrightnessSlider.addEventListener('input', async (event) => {
 	await controlBrightness({apiKey: apiKeyInput.value, brightness: event.target.value, deviceMac: devicesContainer.dataset.mac, deviceSku: devicesContainer.dataset.sku, apiKey: apiKeyInput.value, devicePowerSwitch: devicePowerSwitch.checked, deviceMac: devicesContainer.dataset.mac, deviceSku: devicesContainer.dataset.sku})
 });
 
+
+sceneItems.addEventListener('click', async (event) => {
+	console.log(event.currentTarget);
+});

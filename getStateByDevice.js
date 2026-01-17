@@ -16,7 +16,7 @@ const displayDeviceBrightnessStatus = (brightness) => {
 	deviceBrightnessOutputValue.textContent = brightness;
 }
 
-export const displayDeviceState = (capabilities) => {
+const displayDeviceState = (capabilities) => {
 	displayDevicePowerSwitchStatus(capabilities.find(({instance}) => instance === INSTANCE_IDS.POWERSWITCH)?.state?.value);
 	displayDeviceBrightnessStatus(capabilities.find(({instance}) => instance === INSTANCE_IDS.BRIGHTNESS)?.state?.value);
 };

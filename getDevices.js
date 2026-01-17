@@ -8,7 +8,7 @@ const persistAPIKeyCheck = document.getElementById('persistApiKeyCheck');
 const submitApiKeyButton = document.getElementById('submitApiKey');
 
 const  displaySku = (sku, deviceInfoRow) => {
-	const skuCol = createInfoCol(3);
+	const skuCol = createInfoCol({width: 12 , lgWidth: 3});
 	skuCol.innerHTML = `<div class="input-group">
 	<span class="input-group-text" id="inputGroup-sizing-sm">SKU</span>
 	<input type="text" class="form-control device-sku" value="${sku}" readonly disabled>
@@ -18,7 +18,7 @@ const  displaySku = (sku, deviceInfoRow) => {
 };
 
 const  displayDevice = (device, deviceInfoRow) => {
-	const deviceCol = createInfoCol(3);
+	const deviceCol = createInfoCol({width: 12 , lgWidth: 3});
 	deviceCol.innerHTML = `<div class="input-group">
 	<span class="input-group-text" id="inputGroup-sizing-sm">Device</span>
 	<input type="text" class="form-control device-mac" value="${device}" readonly disabled>
@@ -27,7 +27,7 @@ const  displayDevice = (device, deviceInfoRow) => {
 };
 
 const  displayDeviceName = (deviceName, deviceInfoRow) => {
-	const deviceNameCol = createInfoCol(6);
+	const deviceNameCol = createInfoCol({width: 12, lgWidth: 6});
 	deviceNameCol.innerHTML = `<div class="input-group">
 	<span class="input-group-text" id="inputGroup-sizing-sm">Device Name</span>
 	<input type="text" class="form-control" value="${deviceName}" readonly disabled>

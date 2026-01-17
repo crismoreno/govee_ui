@@ -78,3 +78,22 @@ export const controlBrightness = async ({apiKey, brightness, deviceSku, deviceMa
 
 	return await controlBrightness.json();
 };
+
+export const getDeviceScenes = async ({apiKey, deviceSku, deviceMac}) => {
+	const getDeviceScenes = await fetch(`${API_BASE_URL}/device/scenes`, {
+		method: 'POST',
+		headers: {
+				'Content-Type': 'application/json',
+				[API_KEY_ID]: apiKey
+		},
+		body: JSON.stringify({
+			"requestId": "uuid",
+			"payload": {
+					"sku": deviceSku,
+					"device": deviceMac,
+			}
+		})
+	});
+
+	return await getDeviceScenes.json();
+};
