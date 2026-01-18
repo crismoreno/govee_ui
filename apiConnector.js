@@ -20,7 +20,7 @@ export const getStateByDevice = async ({ sku, device }, apiKey) => {
       [API_KEY_ID]: apiKey
     },
     body: JSON.stringify({
-      requestId: 'uuid',
+      requestId: crypto.randomUUID(),
       payload: {
         sku: sku,
         device: device
@@ -44,7 +44,7 @@ export const togglePower = async ({
       [API_KEY_ID]: apiKey
     },
     body: JSON.stringify({
-      requestId: 'uuid',
+      requestId: crypto.randomUUID(),
       payload: {
         sku: deviceSku,
         device: deviceMac,
@@ -73,7 +73,7 @@ export const setBrightness = async ({
       [API_KEY_ID]: apiKey
     },
     body: JSON.stringify({
-      requestId: 'uuid',
+      requestId: crypto.randomUUID(),
       payload: {
         sku: deviceSku,
         device: deviceMac,
@@ -97,7 +97,7 @@ export const getDeviceScenes = async ({ apiKey, deviceSku, deviceMac }) => {
       [API_KEY_ID]: apiKey
     },
     body: JSON.stringify({
-      requestId: 'uuid',
+      requestId: crypto.randomUUID(),
       payload: {
         sku: deviceSku,
         device: deviceMac
@@ -115,7 +115,6 @@ export const setDynamicScene = async ({
   paramId,
   id
 }) => {
-  console.log({ apiKey, deviceSku, deviceMac, paramId, id });
   const setDynamicScene = await fetch(`${API_BASE_URL}/device/control`, {
     method: 'POST',
     headers: {
@@ -123,7 +122,7 @@ export const setDynamicScene = async ({
       [API_KEY_ID]: apiKey
     },
     body: JSON.stringify({
-      requestId: 'uuid',
+      requestId: crypto.randomUUID(),
       payload: {
         sku: deviceSku,
         device: deviceMac,
@@ -131,8 +130,8 @@ export const setDynamicScene = async ({
           type: 'devices.capabilities.dynamic_scene',
           instance: 'lightScene',
           value: {
-            paramId: paramId,
-            id: id
+            paramId: Number(paramId),
+            id: Number(id)
           }
         }
       }
