@@ -19,6 +19,11 @@ header {
   border-bottom-right-radius: 0;
 }
 
+.confirm-music-mode {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
 .scene-item {
   cursor: pointer;
 }

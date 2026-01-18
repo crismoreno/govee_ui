@@ -140,3 +140,45 @@ export const setDynamicScene = async ({
 
   return await setDynamicScene.json();
 };
+
+export const setMusicMode = async ({
+  apiKey,
+  deviceSku,
+  deviceMac,
+  id,
+  sensitivity,
+  name
+}) => {
+  console.log({
+    apiKey,
+    deviceSku,
+    deviceMac,
+    id,
+    sensitivity,
+    name
+  });
+  const setDynamicScene = await fetch(`${API_BASE_URL}/device/control`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      [API_KEY_ID]: apiKey
+    },
+    body: JSON.stringify({
+      requestId: crypto.randomUUID(),
+      payload: {
+        sku: deviceSku,
+        device: deviceMac,
+        capability: {
+          type: 'devices.capabilities.music_setting',
+          instance: 'musicMode',
+          value: {
+            musicMode: Number(id),
+            sensitivity: Number(sensitivity)
+          }
+        }
+      }
+    })
+  });
+
+  return await setDynamicScene.json();
+};

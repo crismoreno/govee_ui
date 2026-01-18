@@ -30,20 +30,28 @@ const displayDeviceMusicModes = (musicModesFields) => {
     fields: musicModesFields,
     name: INSTANCE_IDS.MUSIC_MODE
   }).options;
-  musicModes.forEach((scene) => {
+  musicModes.forEach((musicMode) => {
     const sceneDiv = document.createElement('div');
     sceneDiv.classList.add(
-      'scene-item',
+      'music-mode-item',
+      'col-12',
+      'col-lg-6',
       'm-1',
-      'p-2',
+      'ps-2',
       'border',
       'rounded',
-      'col-auto',
-      'text-center'
+      'mx-auto',
+      'mb-1'
     );
-    sceneDiv.dataset.paramId = scene.value.paramId;
-    sceneDiv.dataset.id = scene.value.id;
-    sceneDiv.innerHTML = `<span>${scene.name}</span>`;
+    sceneDiv.dataset.id = musicMode.value;
+    sceneDiv.innerHTML = `
+		<div class="d-flex justify-content-between align-items-center">
+			<span class="me-2">${musicMode.name}</span>
+			<div class="w-100 align-items-center d-flex">
+				<input type="range" class="form-range me-2 music-mode-sensitivity" min="0" max="100" step="5" id="range3" value="100"/>
+			</div>
+				<button type="button" class="btn btn-primary confirm-music-mode" data-mode-id="${musicMode.value} data-mode-name="${musicMode.name}"><span class="material-symbols-outlined">check_small</span></button>
+		</div>`;
     musicModesContainer.appendChild(sceneDiv);
   });
 };

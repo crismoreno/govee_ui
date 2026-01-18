@@ -1,7 +1,12 @@
 import { API_KEY_ID } from './constants.js';
 import getDevices from './getDevices.js';
 import getStateByDevice from './getStateByDevice.js';
-import { togglePower, setBrightness, setDynamicScene } from './apiConnector.js';
+import {
+  togglePower,
+  setBrightness,
+  setDynamicScene,
+  setMusicMode
+} from './apiConnector.js';
 import getDevicesScenes from './getDeviceScenes.js';
 
 const apiKeyForm = document.getElementById('apiKeyForm');
@@ -10,6 +15,7 @@ const devicesContainer = document.querySelector('.devices-detail');
 const devicePowerSwitch = document.querySelector('.device-power');
 const deviceBrightnessSlider = document.querySelector('.device-brightness');
 const sceneItems = document.querySelector('.device-dynamic-scenes');
+const musicModeItems = document.querySelector('.device-music-modes');
 
 const persistedAPIKey = localStorage.getItem(API_KEY_ID);
 
@@ -63,6 +69,23 @@ sceneItems.addEventListener('click', async (event) => {
       deviceMac: devicesContainer.dataset.mac,
       paramId: sceneItem.dataset.paramId,
       id: sceneItem.dataset.id
+    });
+  }
+});
+
+musicModeItems.addEventListener('click', async (event) => {
+  const musicModeItem = event.target.closest('.music-mode-item');
+  const sensitivityInput = musicModeItem.querySelector(
+    '.music-mode-sensitivity'
+  );
+  if (musicModeItem) {
+    await setMusicMode({
+      apiKey: apiKeyInput.value,
+      deviceSku: devicesContainer.dataset.sku,
+      deviceMac: devicesContainer.dataset.mac,
+      id: musicModeItem.dataset.id,
+      name: musicModeItem.dataset.name,
+      sensitivity: sensitivityInput.value
     });
   }
 });
