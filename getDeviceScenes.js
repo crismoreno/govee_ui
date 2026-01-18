@@ -2,7 +2,7 @@ import { getDeviceScenes } from './apiConnector.js';
 import { apiCallSuccess } from './helpers.js';
 
 const deviceScenesContainer = document.querySelector(
-  '.device-scenes-container'
+  '.dynamic-scenes-container'
 );
 
 const displayDeviceScenes = (scenes) => {

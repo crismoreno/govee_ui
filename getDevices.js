@@ -1,5 +1,9 @@
-import { API_KEY_ID } from './constants.js';
-import { createInfoRow, createInfoCol, apiCallSuccess } from './helpers.js';
+import { API_KEY_ID, INSTANCE_IDS } from './constants.js';
+import {
+  apiCallSuccess,
+  findCapabilityByType,
+  findFieldByName
+} from './helpers.js';
 import { getDevices as getDevicesController } from './apiConnector.js';
 
 const devicesContainer = document.querySelector('.devices-detail');
@@ -7,44 +11,52 @@ const apiKeyInput = document.getElementById('apiKeyInput');
 const persistAPIKeyCheck = document.getElementById('persistApiKeyCheck');
 const submitApiKeyButton = document.getElementById('submitApiKey');
 
-const displaySku = (sku, deviceInfoRow) => {
-  const skuCol = createInfoCol({ width: 12, lgWidth: 3 });
-  skuCol.innerHTML = `<div class="input-group">
-	<span class="input-group-text" id="inputGroup-sizing-sm">SKU</span>
-	<input type="text" class="form-control device-sku" value="${sku}" readonly disabled>
-	</div>`;
-
-  deviceInfoRow.appendChild(skuCol);
+const displaySku = (sku) => {
+  document.getElementById('deviceSku').value = sku;
 };
 
-const displayDevice = (device, deviceInfoRow) => {
-  const deviceCol = createInfoCol({ width: 12, lgWidth: 3 });
-  deviceCol.innerHTML = `<div class="input-group">
-	<span class="input-group-text" id="inputGroup-sizing-sm">Device</span>
-	<input type="text" class="form-control device-mac" value="${device}" readonly disabled>
-	</div>`;
-  deviceInfoRow.appendChild(deviceCol);
+const displayDevice = (device) => {
+  document.getElementById('deviceMac').value = device;
 };
 
-const displayDeviceName = (deviceName, deviceInfoRow) => {
-  const deviceNameCol = createInfoCol({ width: 12, lgWidth: 6 });
-  deviceNameCol.innerHTML = `<div class="input-group">
-	<span class="input-group-text" id="inputGroup-sizing-sm">Device Name</span>
-	<input type="text" class="form-control" value="${deviceName}" readonly disabled>
-	</div>`;
-  deviceInfoRow.appendChild(deviceNameCol);
+const displayDeviceName = (deviceName) => {
+  document.getElementById('deviceName').value = deviceName;
 };
 
-export const displayDeviceData = ({ sku, device, deviceName }) => {
-  devicesContainer.innerHTML = '';
-  const deviceInfoRow1 = createInfoRow();
-  devicesContainer.appendChild(deviceInfoRow1);
+const displayDeviceMusicModes = (musicModesFields) => {
+  const musicModesContainer = document.querySelector('.music-modes-container');
 
-  displayDeviceName(deviceName, deviceInfoRow1);
-  const deviceInfoRow2 = createInfoRow();
-  devicesContainer.appendChild(deviceInfoRow2);
-  displaySku(sku, deviceInfoRow2);
-  displayDevice(device, deviceInfoRow2);
+  const musicModes = findFieldByName({
+    fields: musicModesFields,
+    name: INSTANCE_IDS.MUSIC_MODE
+  }).options;
+  musicModes.forEach((scene) => {
+    const sceneDiv = document.createElement('div');
+    sceneDiv.classList.add(
+      'scene-item',
+      'm-1',
+      'p-2',
+      'border',
+      'rounded',
+      'col-auto',
+      'text-center'
+    );
+    sceneDiv.dataset.paramId = scene.value.paramId;
+    sceneDiv.dataset.id = scene.value.id;
+    sceneDiv.innerHTML = `<span>${scene.name}</span>`;
+    musicModesContainer.appendChild(sceneDiv);
+  });
+};
+
+const displayDeviceData = ({ sku, device, deviceName, capabilities }) => {
+  devicesContainer.classList.remove('d-none');
+  displayDeviceName(deviceName);
+  displaySku(sku);
+  displayDevice(device);
+  displayDeviceMusicModes(
+    findCapabilityByType({ capabilities, type: INSTANCE_IDS.MUSIC_MODE })
+      .parameters.fields
+  );
 };
 
 const getDevices = async ({ apiKey, persistApiKey }) => {

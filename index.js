@@ -9,7 +9,7 @@ const apiKeyInput = document.getElementById('apiKeyInput');
 const devicesContainer = document.querySelector('.devices-detail');
 const devicePowerSwitch = document.querySelector('.device-power');
 const deviceBrightnessSlider = document.querySelector('.device-brightness');
-const sceneItems = document.querySelector('.device-scenes');
+const sceneItems = document.querySelector('.device-dynamic-scenes');
 
 const persistedAPIKey = localStorage.getItem(API_KEY_ID);
 
