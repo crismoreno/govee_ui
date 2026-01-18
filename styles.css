@@ -1,5 +1,5 @@
-body{
-	background-color: #212529;
+body {
+  background-color: #212529;
 }
 
 /* *{
@@ -7,14 +7,18 @@ body{
 } */
 
 header {
-	height:50px;
+  height: 50px;
 }
 
-.material-symbols-outlined{
-	line-height: unset;
+.material-symbols-outlined {
+  line-height: unset;
 }
 
-.power-switch{
-	border-top-right-radius: 0;
-	border-bottom-right-radius: 0;
+.power-switch {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.scene-item {
+  cursor: pointer;
 }
