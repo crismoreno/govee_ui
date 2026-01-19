@@ -5,7 +5,8 @@ import {
   togglePower,
   setBrightness,
   setDynamicScene,
-  setMusicMode
+  setMusicMode,
+  setSnapshot
 } from './apiConnector.js';
 import getDevicesScenes from './getDeviceScenes.js';
 
@@ -16,6 +17,7 @@ const devicePowerSwitch = document.querySelector('.device-power');
 const deviceBrightnessSlider = document.querySelector('.device-brightness');
 const sceneItems = document.querySelector('.device-dynamic-scenes');
 const musicModeItems = document.querySelector('.device-music-modes');
+const deviceSnapshots = document.querySelector('.device-snapshots');
 
 const persistedAPIKey = localStorage.getItem(API_KEY_ID);
 
@@ -86,6 +88,18 @@ musicModeItems.addEventListener('click', async (event) => {
       id: musicModeItem.dataset.id,
       name: musicModeItem.dataset.name,
       sensitivity: sensitivityInput.value
+    });
+  }
+});
+
+deviceSnapshots.addEventListener('click', async (event) => {
+  const musicModeItem = event.target.closest('.set-snapshot-button');
+  if (musicModeItem) {
+    await setSnapshot({
+      apiKey: apiKeyInput.value,
+      deviceSku: devicesContainer.dataset.sku,
+      deviceMac: devicesContainer.dataset.mac,
+      id: musicModeItem.dataset.snapshotid
     });
   }
 });

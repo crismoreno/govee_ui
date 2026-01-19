@@ -3,5 +3,7 @@ export const API_BASE_URL = 'https://openapi.api.govee.com/router/api/v1';
 export const INSTANCE_IDS = Object.freeze({
   POWERSWITCH: 'powerSwitch',
   BRIGHTNESS: 'brightness',
-  MUSIC_MODE: 'musicMode'
+  MUSIC_MODE: 'musicMode',
+  SNAPSHOT: 'snapshot',
+  LIGHTSCENE: 'lightScene'
 });

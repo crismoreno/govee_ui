@@ -31,11 +31,8 @@ const displayDeviceMusicModes = (musicModesFields) => {
     name: INSTANCE_IDS.MUSIC_MODE
   }).options;
   musicModes.forEach((musicMode) => {
-    const sceneDiv = document.createElement('div');
-    sceneDiv.classList.add(
-      'music-mode-item',
-      'col-12',
-      'col-lg-6',
+    const musicModeDiv = document.createElement('div');
+    musicModeDiv.classList.add(
       'm-1',
       'ps-2',
       'border',
@@ -43,16 +40,29 @@ const displayDeviceMusicModes = (musicModesFields) => {
       'mx-auto',
       'mb-1'
     );
-    sceneDiv.dataset.id = musicMode.value;
-    sceneDiv.innerHTML = `
-		<div class="d-flex justify-content-between align-items-center">
+    musicModeDiv.dataset.id = musicMode.value;
+    musicModeDiv.innerHTML = `
+		<div class="w-30 d-flex justify-content-between align-items-center music-mode-item">
 			<span class="me-2">${musicMode.name}</span>
 			<div class="w-100 align-items-center d-flex">
 				<input type="range" class="form-range me-2 music-mode-sensitivity" min="0" max="100" step="5" id="range3" value="100"/>
 			</div>
 				<button type="button" class="btn btn-primary confirm-music-mode" data-mode-id="${musicMode.value} data-mode-name="${musicMode.name}"><span class="material-symbols-outlined">check_small</span></button>
 		</div>`;
-    musicModesContainer.appendChild(sceneDiv);
+    musicModesContainer.appendChild(musicModeDiv);
+  });
+};
+
+const displayDeviceSnapshots = (snapshotFields) => {
+  const snapshotsContainer = document.querySelector('.snapshots-container');
+  snapshotFields.forEach((snapshot) => {
+    const snapshotDiv = document.createElement('div');
+    snapshotDiv.classList.add('snapshot-item', 'bordered', 'rounded');
+    snapshotDiv.dataset.id = snapshot.value;
+    snapshotDiv.innerHTML = `
+		<button class="btn btn-outline-primary set-snapshot-button" type="button" style="width: 100px; height: 100px;"data-snapshotId="${snapshot.value}">${snapshot.name}</button>
+		`;
+    snapshotsContainer.appendChild(snapshotDiv);
   });
 };
 
@@ -64,6 +74,10 @@ const displayDeviceData = ({ sku, device, deviceName, capabilities }) => {
   displayDeviceMusicModes(
     findCapabilityByType({ capabilities, type: INSTANCE_IDS.MUSIC_MODE })
       .parameters.fields
+  );
+  displayDeviceSnapshots(
+    findCapabilityByType({ capabilities, type: INSTANCE_IDS.SNAPSHOT })
+      .parameters.options
   );
 };
 
