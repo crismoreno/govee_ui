@@ -6,24 +6,20 @@ const deviceScenesContainer = document.querySelector(
 );
 
 const displayDeviceScenes = (scenes) => {
-  scenes.forEach((scene) => {
-    const sceneDiv = document.createElement('div');
-    sceneDiv.classList.add(
-      'scene-item',
-      'm-1',
-      'p-2',
-      'border',
-      'rounded',
-      'col-auto',
-      'text-center'
-    );
-    sceneDiv.dataset.paramId = scene.value.paramId;
-    sceneDiv.dataset.id = scene.value.id;
-    sceneDiv.innerHTML = `
-			<span>${scene.name}</span>
+  scenes
+    .sort(({ name: previousName }, { name: nextName }) =>
+      previousName.localeCompare(nextName)
+    )
+    .forEach((scene) => {
+      const sceneDiv = document.createElement('div');
+      sceneDiv.classList.add('scene-item', 'text-center', 'col-4', 'p-1');
+      sceneDiv.dataset.paramId = scene.value.paramId;
+      sceneDiv.dataset.id = scene.value.id;
+      sceneDiv.innerHTML = `
+			<button class="btn btn-outline-primary w-100" type="button" data-id="${scene.value.id}" data-test-paramid="${scene.value.paramId}">${scene.name}</button>
 		`;
-    deviceScenesContainer.appendChild(sceneDiv);
-  });
+      deviceScenesContainer.appendChild(sceneDiv);
+    });
 };
 
 const getDevicesScenes = async ({ apiKey, device: { sku, device } }) => {

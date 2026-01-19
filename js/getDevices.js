@@ -7,6 +7,7 @@ import {
 import { getDevices as getDevicesController } from './apiConnector.js';
 
 const devicesContainer = document.querySelector('.devices-detail');
+const devicesExtraControls = document.querySelector('.device-extra-controls');
 const apiKeyInput = document.getElementById('apiKeyInput');
 const persistAPIKeyCheck = document.getElementById('persistApiKeyCheck');
 const submitApiKeyButton = document.getElementById('submitApiKey');
@@ -42,7 +43,7 @@ const displayDeviceMusicModes = (musicModesFields) => {
     );
     musicModeDiv.dataset.id = musicMode.value;
     musicModeDiv.innerHTML = `
-		<div class="w-30 d-flex justify-content-between align-items-center music-mode-item">
+		<div class="w-30 d-flex justify-content-between align-items-center music-mode-item" data-mode-id="${musicMode.value}" data-mode-name="${musicMode.name}">
 			<span class="me-2">${musicMode.name}</span>
 			<div class="w-100 align-items-center d-flex">
 				<input type="range" class="form-range me-2 music-mode-sensitivity" min="0" max="100" step="5" id="range3" value="100"/>
@@ -54,13 +55,15 @@ const displayDeviceMusicModes = (musicModesFields) => {
 };
 
 const displayDeviceSnapshots = (snapshotFields) => {
-  const snapshotsContainer = document.querySelector('.snapshots-container');
+  const snapshotsContainer = document.querySelector(
+    '.device-snapshots-container'
+  );
   snapshotFields.forEach((snapshot) => {
     const snapshotDiv = document.createElement('div');
-    snapshotDiv.classList.add('snapshot-item', 'bordered', 'rounded');
+    snapshotDiv.classList.add('snapshot-item', 'bordered', 'rounded', 'm-2');
     snapshotDiv.dataset.id = snapshot.value;
     snapshotDiv.innerHTML = `
-		<button class="btn btn-outline-primary set-snapshot-button" type="button" style="width: 100px; height: 100px;"data-snapshotId="${snapshot.value}">${snapshot.name}</button>
+		<button class="btn btn-outline-primary set-snapshot-button my-1" type="button" style="width: 100px; height: 100px;"data-snapshotId="${snapshot.value}">${snapshot.name}</button>
 		`;
     snapshotsContainer.appendChild(snapshotDiv);
   });
@@ -68,6 +71,8 @@ const displayDeviceSnapshots = (snapshotFields) => {
 
 const displayDeviceData = ({ sku, device, deviceName, capabilities }) => {
   devicesContainer.classList.remove('d-none');
+  devicesExtraControls.classList.remove('d-none');
+
   displayDeviceName(deviceName);
   displaySku(sku);
   displayDevice(device);

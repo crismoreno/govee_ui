@@ -19,6 +19,19 @@
 
 <body>
 	<header></header>
+	<div class="toast-container top-0 end-0 p-3 hide" style="position: fixed;">
+		<div class="toast api-response-toast" role="alert" aria-live="assertive" aria-atomic="true">
+			<div class="toast-header">
+				<img src="./assets/favicons/favicon-32x32.png" class="rounded me-2" alt="...">
+				<strong class="me-auto">GooveApi</strong>
+				<small>Now</small>
+				<button type="button" class="btn-close api-response-toast-close" data-bs-dismiss="toast"
+					aria-label="Close"></button>
+			</div>
+			<div class="api-response-toast-body toast-body">
+			</div>
+		</div>
+	</div>
 	<section class="container api-key">
 		<form class="row justify-content-center m-auto" id="apiKeyForm">
 			<div class="col-12 col-lg-6 mb-1">
@@ -83,19 +96,47 @@
 			</div>
 		</div>
 	</section>
-	<section class="container device-snapshots my-3">
-		<div class="row">
-			<div class="col-12 col-lg-6 justify-content-between m-auto snapshots-container d-flex flex-wrap"></div>
-		</div>
-	</section>
-	<section class="container device-music-modes">
-		<div class="row justify-content-center m-auto">
-			<div class="music-modes-container col-12 col-lg-6"></div>
-		</div>
-	</section>
-	<section class="container device-dynamic-scenes mt-3">
-		<div class="row justify-content-center m-auto">
-			<div class="dynamic-scenes-container col-12 col-lg-6 d-flex flex-wrap justify-content-center"></div>
+	<section class="container row m-auto mt-3 device-extra-controls d-none">
+		<div class="accordion col-12 col-lg-6 m-auto" id="accordionPanelsStayOpenExample">
+			<div class="accordion-item">
+				<h2 class="accordion-header">
+					<button class="accordion-button" type="button" data-bs-toggle="collapse"
+						data-bs-target="#deviceSnapshotsPanel" aria-expanded="true" aria-controls="deviceSnapshotsPanel">
+						Device Snapshots
+					</button>
+				</h2>
+				<div id="deviceSnapshotsPanel" class="accordion-collapse show">
+					<div class="accordion-body">
+						<div class="device-snapshots-container d-flex flex-wrap justify-content-center"></div>
+					</div>
+				</div>
+			</div>
+			<div class="accordion-item">
+				<h2 class="accordion-header">
+					<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+						data-bs-target="#musicModesPanel" aria-expanded="false" aria-controls="musicModesPanel">
+						Music Modes!
+					</button>
+				</h2>
+				<div id="musicModesPanel" class="accordion-collapse collapse">
+					<div class="accordion-body">
+						<div class="music-modes-container"></div>
+					</div>
+				</div>
+			</div>
+			<div class="accordion-item">
+				<h2 class="accordion-header">
+					<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+						data-bs-target="#dynamicScenesPanel" aria-expanded="false" aria-controls="dynamicScenesPanel">
+						Device Dynamic Scenes
+					</button>
+				</h2>
+				<div id="dynamicScenesPanel" class="accordion-collapse collapse">
+					<div class="accordion-body container mt-3">
+						<div class="dynamic-scenes-container d-flex flex-wrap justify-content-center"></div>
+					</div>
+				</div>
+			</div>
 		</div>
 	</section>
 

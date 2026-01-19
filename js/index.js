@@ -9,15 +9,11 @@ import {
   setSnapshot
 } from './apiConnector.js';
 import getDevicesScenes from './getDeviceScenes.js';
+import { showApiResponeToaster } from './helpers.js';
 
 const apiKeyForm = document.getElementById('apiKeyForm');
 const apiKeyInput = document.getElementById('apiKeyInput');
 const devicesContainer = document.querySelector('.devices-detail');
-const devicePowerSwitch = document.querySelector('.device-power');
-const deviceBrightnessSlider = document.querySelector('.device-brightness');
-const sceneItems = document.querySelector('.device-dynamic-scenes');
-const musicModeItems = document.querySelector('.device-music-modes');
-const deviceSnapshots = document.querySelector('.device-snapshots');
 
 const persistedAPIKey = localStorage.getItem(API_KEY_ID);
 
@@ -42,64 +38,77 @@ apiKeyForm.addEventListener('submit', async (event) => {
   onApiKeyProvided(apiKey, persistApiKey);
 });
 
-devicePowerSwitch.addEventListener('click', async () => {
-  await togglePower({
+document.querySelector('.device-power').addEventListener('click', async () => {
+  const response = await togglePower({
     apiKey: apiKeyInput.value,
-    devicePowerSwitch: devicePowerSwitch.checked,
+    devicePowerSwitch: document.querySelector('.device-power').checked,
     deviceMac: devicesContainer.dataset.mac,
     deviceSku: devicesContainer.dataset.sku
   });
+
+  showApiResponeToaster(response);
 });
 
-deviceBrightnessSlider.addEventListener('input', async (event) => {
-  document.querySelector('.brightness-output-value').textContent =
-    event.target.value;
-  await setBrightness({
-    apiKey: apiKeyInput.value,
-    brightness: event.target.value,
-    deviceMac: devicesContainer.dataset.mac,
-    deviceSku: devicesContainer.dataset.sku
+document
+  .querySelector('.device-brightness')
+  .addEventListener('input', async (event) => {
+    document.querySelector('.brightness-output-value').textContent =
+      event.target.value;
+    const response = await setBrightness({
+      apiKey: apiKeyInput.value,
+      brightness: event.target.value,
+      deviceMac: devicesContainer.dataset.mac,
+      deviceSku: devicesContainer.dataset.sku
+    });
+
+    showApiResponeToaster(response);
   });
-});
 
-sceneItems.addEventListener('click', async (event) => {
-  const sceneItem = event.target.closest('.scene-item');
-  if (sceneItem) {
-    await setDynamicScene({
+document
+  .querySelector('.dynamic-scenes-container')
+  .addEventListener('click', async (event) => {
+    const sceneItem = event.target.closest('.scene-item');
+    const response = await setDynamicScene({
       apiKey: apiKeyInput.value,
       deviceSku: devicesContainer.dataset.sku,
       deviceMac: devicesContainer.dataset.mac,
       paramId: sceneItem.dataset.paramId,
       id: sceneItem.dataset.id
     });
-  }
-});
 
-musicModeItems.addEventListener('click', async (event) => {
-  const musicModeItem = event.target.closest('.music-mode-item');
-  const sensitivityInput = musicModeItem.querySelector(
-    '.music-mode-sensitivity'
-  );
-  if (musicModeItem) {
-    await setMusicMode({
+    showApiResponeToaster(response);
+  });
+
+document
+  .querySelector('.music-modes-container')
+  .addEventListener('click', async (event) => {
+    const musicModeItem = event.target.closest('.music-mode-item');
+    const sensitivityInput = musicModeItem.querySelector(
+      '.music-mode-sensitivity'
+    );
+
+    const response = await setMusicMode({
       apiKey: apiKeyInput.value,
       deviceSku: devicesContainer.dataset.sku,
       deviceMac: devicesContainer.dataset.mac,
-      id: musicModeItem.dataset.id,
-      name: musicModeItem.dataset.name,
+      id: musicModeItem.dataset.modeId,
+      name: musicModeItem.dataset.modeName,
       sensitivity: sensitivityInput.value
     });
-  }
-});
 
-deviceSnapshots.addEventListener('click', async (event) => {
-  const musicModeItem = event.target.closest('.set-snapshot-button');
-  if (musicModeItem) {
-    await setSnapshot({
+    showApiResponeToaster(response);
+  });
+
+document
+  .querySelector('.device-snapshots-container')
+  .addEventListener('click', async (event) => {
+    const musicModeItem = event.target.closest('.set-snapshot-button');
+    const response = await setSnapshot({
       apiKey: apiKeyInput.value,
       deviceSku: devicesContainer.dataset.sku,
       deviceMac: devicesContainer.dataset.mac,
       id: musicModeItem.dataset.snapshotid
     });
-  }
-});
+
+    showApiResponeToaster(response);
+  });

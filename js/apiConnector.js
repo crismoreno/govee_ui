@@ -170,7 +170,6 @@ export const setMusicMode = async ({
       }
     })
   });
-
   return await setDynamicScene.json();
 };
 
